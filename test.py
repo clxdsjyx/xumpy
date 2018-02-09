@@ -5,7 +5,6 @@ import timeit
 
 import xumpy as xp
 import numpy as np
-import IPython
 
 SZ = (10000, )
 
@@ -48,5 +47,3 @@ def bench():
 	print(times_xp)
 
 bench()
-
-IPython.embed()
