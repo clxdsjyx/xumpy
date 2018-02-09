@@ -10,13 +10,17 @@ cdef extern from "<xtensor/xarray.hpp>" namespace "xt" nogil:
 
         xarray() except +
         xarray(vector[size_t]&, T value)
+        xarray(vector[size_t]&)
+
+        xarray(xarray&&)
+        xarray(const xarray&)
 
         T& operator[](size_type)
 
         vector[size_type]& shape()
 
 cdef extern from "xsupport.hpp" nogil:
-    cdef xarray[double] xadd(xarray[double]&, xarray[double]&)
+    cdef void xadd(xarray[double]&, const xarray[double]&, const xarray[double]&)
     cdef xarray[double] xsum(xarray[double]&)
     cdef void print_stats()
 
@@ -24,7 +28,7 @@ cdef class ndarray:
     cdef xarray[double] arr
 
     def __cinit__(self, vector[size_t] shape = []):
-        self.arr = xarray[double](shape, 1)
+        self.arr = xarray[double](shape)
 
     def __getitem__(self, size_t idx):
         return self.arr[idx]
@@ -37,7 +41,7 @@ cdef class ndarray:
 
     def __add__(ndarray self, ndarray rhs):
         ret = ndarray()
-        ret.arr = xadd(self.arr, rhs.arr)
+        xadd(ret.arr, self.arr, rhs.arr)
         return ret
 
 def print_info():

@@ -6,15 +6,13 @@
 using namespace xt;
 
 template <class T>
-auto xadd(const xarray<T>& lhs, const xarray<T>& rhs)
+inline void xadd(xarray<T>& res, const xarray<T>& lhs, const xarray<T>& rhs)
 {
-	xarray<T> ret;
-	xt::noalias(ret) = lhs + rhs;
-	return ret;
+	xt::noalias(res) = lhs + rhs;
 }
 
 template <class T>
-xarray<T> xsum(xarray<T>& arr)
+inline xarray<T> xsum(xarray<T>& arr)
 {
 	return xt::eval(xt::sum(arr, {0}, xt::evaluation_strategy::immediate()));
 }
